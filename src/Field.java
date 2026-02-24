@@ -2,20 +2,28 @@ public class Field {
     int height;
     int width;
 
+    int totalMines;
+
     char[][] fieldCells = new char[width][height];
 
     public Field(String difficulty){
         if(difficulty.equals("easy")){
-            this.height = 9;
-            this.width = 9;
+            height = 9;
+            width = 9;
+
+            totalMines = 10;
         }
         else if(difficulty.equals("medium")){
-            this.height = 16;
-            this.width = 16;
+            height = 16;
+            width = 16;
+
+            totalMines = 40;
         }
-        else{
-            this.height = 16;
-            this.width = 30;
+        else if(difficulty.equals("expert")){
+            height = 16;
+            width = 30;
+
+            totalMines = 99;
         }
     }
 
