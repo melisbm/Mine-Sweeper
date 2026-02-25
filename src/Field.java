@@ -77,16 +77,7 @@ public class Field {
             int x = getRandom(height);
             int y = getRandom(width);
 
-            boolean match = false;
-
-            for(int i = 0; i < cellIndex; i++){
-                if(bombCoords[i][0] == x && bombCoords[i][1] == y){
-                    match = true;
-                    break;
-                }
-            }
-
-            if (match){
+            if(fieldCells[y][x] == 'B'){
                 continue;
             }
 
