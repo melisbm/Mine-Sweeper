@@ -1,12 +1,11 @@
-import java.util.*;
-
 public class Field {
-    int height;
-    int width;
+    private int height;
+    private int width;
 
-    int totalMines;
+    private int totalMines;
 
-    char[][] fieldCells = new char[width][height];
+    private char[][] fieldCells;
+    private int[][] bombCoords;
 
     public Field(String diff){
         if(diff.equals("easy")){
@@ -27,37 +26,81 @@ public class Field {
 
             totalMines = 99;
         }
+
+        fieldCells = new char[height][width];
+        bombCoords = new int[totalMines][2];
     }
 
-    public String fieldToString(String difficulty){
+    //=====FIELD=====
+
+    public void resetField(){
+
+        placeBombs();
+
+        for(int i = 0; i < height; i++){
+
+            for(int j = 0; j < width; j++){
+
+                if(fieldCells[i][j] != 'B'){
+                    fieldCells[i][j] = ' ';
+                }
+            }
+        }
+    }
+
+    public String fieldToString(){
+
         StringBuilder sb = new StringBuilder();
-        return "";
+
+        for(int i = 0; i < height; i++){
+
+            sb.append("|");
+
+            for(int j = 0; j < width; j++){
+                sb.append(fieldCells[i][j] + "|");
+            }
+
+            sb.append("\n");
+        }
+
+        return sb.toString();
     }
 
-    public void placeBombs(){
+    //=====BOMBS=====
 
-        int[][] bombsIndex = new int[totalMines][2];
+    private void placeBombs(){
 
-        int index = 0;
+        int cellIndex = 0;
 
-        while(index < totalMines){
+        while(cellIndex < totalMines){
 
             int x = getRandom(height);
             int y = getRandom(width);
 
-            //for loop looking for duplicates
+            boolean match = false;
 
-            bombsIndex[index][0] = x;
-            bombsIndex[index][1] = y;
+            for(int i = 0; i < cellIndex; i++){
+                if(bombCoords[i][0] == x && bombCoords[i][1] == y){
+                    match = true;
+                    break;
+                }
+            }
 
-            index++;
+            if (match){
+                continue;
+            }
+
+            bombCoords[cellIndex][0] = x;
+            bombCoords[cellIndex][1] = y;
+
+            fieldCells[y][x] = 'B';
+
+            cellIndex++;
         }
     }
 
     private int getRandom(int num){
-        int range = ((num - 1) - 0) + 1;
-        int random = (int) ((range * Math.random()) + 0);
-        return range;
+        return (int) (num * Math.random());
     }
 
 }

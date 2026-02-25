@@ -7,16 +7,19 @@ public class Game {
     public void startGame(String diff){
 
         Field field = new Field(diff);
-        field.placeBombs();
+        field.resetField();
+
+        System.out.println(field.fieldToString());
 
         sc = new Scanner(System.in);
-        running = true;
 
+        running = true;
     }
 
     public void gameLoop(){
 
         while(running){
+
         }
 
     }
@@ -25,7 +28,4 @@ public class Game {
         sc.close();
         running = false;
     }
-
-
-
 }
