@@ -2,8 +2,8 @@ import java.util.*;
 
 public class Game {
 
-    private void startGame(){
-        Field field = new Field("medium");
+    private void startGame(String diff){
+        Field field = new Field(diff);
     }
 
     private void gameLoop(){
