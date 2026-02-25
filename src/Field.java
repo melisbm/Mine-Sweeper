@@ -69,13 +69,13 @@ public class Field {
     //=====BOMBS=====
 
     private void placeBombs(){
-
+        int count = 0;
         int cellIndex = 0;
 
         while(cellIndex < totalMines){
 
-            int x = getRandom(height);
-            int y = getRandom(width);
+            int x = getRandom(width);
+            int y = getRandom(height);
 
             if(fieldCells[y][x] == 'B'){
                 continue;
@@ -85,9 +85,11 @@ public class Field {
             bombCoords[cellIndex][1] = y;
 
             fieldCells[y][x] = 'B';
+            count++;
 
             cellIndex++;
         }
+        System.out.println(count);
     }
 
     private int getRandom(int num){
