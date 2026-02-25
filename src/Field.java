@@ -1,3 +1,5 @@
+import java.util.*;
+
 public class Field {
     int height;
     int width;
@@ -29,6 +31,10 @@ public class Field {
 
     public String fieldToString(String difficulty){
         return "";
+    }
+
+    private void randomizeBombCells(){
+        fieldCells
     }
 
 }

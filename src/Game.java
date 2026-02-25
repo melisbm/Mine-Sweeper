@@ -1,13 +1,30 @@
 import java.util.*;
 
 public class Game {
+    private Scanner sc;
+    private boolean running;
 
-    private void startGame(String diff){
+    public void startGame(String diff){
+
         Field field = new Field(diff);
+
+        sc = new Scanner(System.in);
+        running = true;
+
     }
 
-    private void gameLoop(){
-        Scanner sc = new Scanner(System.in);
-        sc.close();
+    public void gameLoop(){
+
+        while(running){
+        }
+
     }
+
+    public void stopGame(){
+        sc.close();
+        running = false;
+    }
+
+
+
 }
