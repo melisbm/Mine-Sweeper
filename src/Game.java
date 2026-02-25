@@ -7,6 +7,7 @@ public class Game {
     public void startGame(String diff){
 
         Field field = new Field(diff);
+        field.placeBombs();
 
         sc = new Scanner(System.in);
         running = true;

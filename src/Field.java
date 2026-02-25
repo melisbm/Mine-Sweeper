@@ -30,11 +30,34 @@ public class Field {
     }
 
     public String fieldToString(String difficulty){
+        StringBuilder sb = new StringBuilder();
         return "";
     }
 
-    private void randomizeBombCells(){
-        fieldCells
+    public void placeBombs(){
+
+        int[][] bombsIndex = new int[totalMines][2];
+
+        int index = 0;
+
+        while(index < totalMines){
+
+            int x = getRandom(height);
+            int y = getRandom(width);
+
+            //for loop looking for duplicates
+
+            bombsIndex[index][0] = x;
+            bombsIndex[index][1] = y;
+
+            index++;
+        }
+    }
+
+    private int getRandom(int num){
+        int range = ((num - 1) - 0) + 1;
+        int random = (int) ((range * Math.random()) + 0);
+        return range;
     }
 
 }
