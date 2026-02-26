@@ -7,6 +7,8 @@ public class Field {
     private char[][] fieldCells;
     private int[][] bombCoords;
 
+    int maxSpaces;
+
     public Field(String diff){
         if(diff.equals("easy")){
             height = 9;
@@ -26,6 +28,8 @@ public class Field {
 
             totalMines = 99;
         }
+
+        maxSpaces = (int) Math.floor(Math.log10(Math.abs(height))) + 1;
 
         fieldCells = new char[height][width];
         bombCoords = new int[totalMines][2];
@@ -52,11 +56,21 @@ public class Field {
 
         StringBuilder sb = new StringBuilder();
 
+        int numSpaces = maxSpaces;
+        int count = 0;
+
         for(int i = 0; i < height; i++){
 
+            if(count++ == 9){
+                count = 0;
+                numSpaces--;
+            }
+
+            sb.append(i + 1 + " ".repeat(numSpaces));
             sb.append("|");
 
             for(int j = 0; j < width; j++){
+
                 sb.append(fieldCells[i][j] + "|");
             }
 
