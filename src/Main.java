@@ -6,7 +6,7 @@ public class Main {
 
         Game game = new Game();
 
-        game.startGame("medium");
+        game.startGame("expert");
         game.stopGame();
     }
 }

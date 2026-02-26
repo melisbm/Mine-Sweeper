@@ -55,6 +55,12 @@ public class Field {
     public String fieldToString(){
 
         StringBuilder sb = new StringBuilder();
+        sb.append(" ".repeat(maxSpaces + 2));
+        for(int i = 0; i < width; i++){
+            sb.append((i + 1) + " ");
+        }
+
+        sb.append("\n");
 
         int numSpaces = maxSpaces;
         int count = 0;
