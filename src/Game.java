@@ -1,9 +1,9 @@
 import java.util.*;
 
 public class Game {
+
     private Scanner sc;
     private boolean running;
-
 
     public void startGame(String diff){
 
@@ -20,6 +20,7 @@ public class Game {
     public void gameLoop(Field field){
 
         while(running){
+
             System.out.println(field.fieldToString());
             System.out.print("\nColumn: ");
             int rowPick = sc.nextInt();
@@ -27,7 +28,6 @@ public class Game {
             int colPick = sc.nextInt();
 
             field.updateField(rowPick, colPick);
-
         }
 
     }

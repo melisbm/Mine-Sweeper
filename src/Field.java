@@ -51,7 +51,7 @@ public class Field {
             for(int j = 0; j < width; j++){
 
                 if(fieldCells[i][j] != -1){
-                    fieldCells[i][j] = numberOfBombsOfCell(i, j);
+                    fieldCells[i][j] = numberOfBombsOfCell(j, i);
                 }
             }
         }
