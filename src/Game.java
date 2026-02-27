@@ -7,8 +7,7 @@ public class Game {
 
     public void startGame(String diffPick){
 
-        Difficulty diff = new Difficulty();
-        Field field = new Field(diff, diffPick);
+        Field field = new Field(diffPick);
         field.resetField();
 
         sc = new Scanner(System.in);

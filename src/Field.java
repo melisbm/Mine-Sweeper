@@ -14,12 +14,13 @@ public class Field {
 
     int maxSpaces;
 
-    public Field(Difficulty diff, String diffPick){
+    public Field(String diffPick){
 
-        width = diff.getSettings(diffPick)[0];
-        height = diff.getSettings(diffPick)[1];
+        int[] diffSettings = Difficulty.getSettings(diffPick);
 
-        totalMines = diff.getSettings(diffPick)[2];
+        width = diffSettings[0];
+        height = diffSettings[1];
+        totalMines = diffSettings[2];
 
         maxSpaces = (int) Math.floor(Math.log10(Math.abs(height))) + 1;
 

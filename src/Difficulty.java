@@ -1,11 +1,11 @@
 public class Difficulty {
 
     //{ width, height, bombs }
-    private final int[] EASY = { 9, 9, 16 };
-    private final int[] MEDIUM = { 16, 16, 40 };
-    private final int[] EXPERT = { 16, 30, 99 };
+    private static final int[] EASY = { 9, 9, 10 };
+    private static final int[] MEDIUM = { 16, 16, 40 };
+    private static final int[] EXPERT = { 16, 30, 99 };
 
-    public int[] getSettings(String diff){
+    public static int[] getSettings(String diff){
 
         if(diff.equals("easy")){
             return EASY;
