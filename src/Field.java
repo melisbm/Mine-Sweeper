@@ -86,6 +86,10 @@ public class Field {
         return sb.toString();
     }
 
+    public void updateField(int col, int row){
+
+    }
+
     //=====BOMBS=====
 
     private void placeBombs(){

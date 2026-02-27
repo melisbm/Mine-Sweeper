@@ -4,21 +4,29 @@ public class Game {
     private Scanner sc;
     private boolean running;
 
+
     public void startGame(String diff){
 
         Field field = new Field(diff);
         field.resetField();
 
-        System.out.println(field.fieldToString());
-
         sc = new Scanner(System.in);
 
         running = true;
+
+        gameLoop(field);
     }
 
-    public void gameLoop(){
+    public void gameLoop(Field field){
 
         while(running){
+            System.out.println(field.fieldToString());
+            System.out.print("\nColumn: ");
+            int rowPick = sc.nextInt();
+            System.out.print("Row: ");
+            int colPick = sc.nextInt();
+
+            field.updateField(rowPick, colPick);
 
         }
 
