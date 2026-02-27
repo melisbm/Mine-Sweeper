@@ -14,25 +14,12 @@ public class Field {
 
     int maxSpaces;
 
-    public Field(String diff){
-        if(diff.equals("easy")){
-            height = 9;
-            width = 9;
+    public Field(Difficulty diff, String diffPick){
 
-            totalMines = 10;
-        }
-        else if(diff.equals("medium")){
-            height = 16;
-            width = 16;
+        width = diff.getSettings(diffPick)[0];
+        height = diff.getSettings(diffPick)[1];
 
-            totalMines = 40;
-        }
-        else if(diff.equals("expert")){
-            height = 16;
-            width = 30;
-
-            totalMines = 99;
-        }
+        totalMines = diff.getSettings(diffPick)[2];
 
         maxSpaces = (int) Math.floor(Math.log10(Math.abs(height))) + 1;
 
