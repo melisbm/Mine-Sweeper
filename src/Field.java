@@ -51,7 +51,7 @@ public class Field {
             for(int j = 0; j < width; j++){
 
                 if(fieldCells[i][j] != -1){
-                    fieldCells[i][j] = 0;
+                    fieldCells[i][j] = numberOfBombsOfCell(i, j);
                 }
             }
         }
@@ -61,6 +61,7 @@ public class Field {
 
         StringBuilder sb = new StringBuilder();
         sb.append(" ".repeat(maxSpaces + 2));
+
         for(int i = 0; i < width; i++){
             sb.append((i + 1) + " ");
         }
@@ -96,7 +97,33 @@ public class Field {
     }
 
     private int numberOfBombsOfCell(int col, int row){
-        return 8;
+
+        int count = 0;
+
+        //top
+        for(int i = -1; i <= 1; i++){
+            if(col + i >= 0 && col + i < width && row - 1 >= 0 && fieldCells[row - 1][col + i] == -1){
+                count++;
+            }
+        }
+
+        //middle
+        if(col - 1 >= 0 && fieldCells[row][col - 1] == -1){
+            count++;
+        }
+
+        if(col + 1 < width && fieldCells[row][col + 1] == -1){
+            count++;
+        }
+
+        //bottom
+        for(int i = -1; i <= 1; i++){
+            if(col + i >= 0 && col + i < width && row + 1 < height && fieldCells[row + 1][col + i] == -1){
+                count++;
+            }
+        }
+
+        return count;
     }
 
     //=====BOMBS=====
