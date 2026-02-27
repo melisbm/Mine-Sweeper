@@ -4,7 +4,12 @@ public class Field {
 
     private int totalMines;
 
-    private char[][] fieldCells;
+    //0: no bombs around
+    //1-8: num of bombs around
+    //-1: bomb
+    //-2: marked
+    private int[][] fieldCells;
+
     private int[][] bombCoords;
 
     int maxSpaces;
@@ -31,7 +36,7 @@ public class Field {
 
         maxSpaces = (int) Math.floor(Math.log10(Math.abs(height))) + 1;
 
-        fieldCells = new char[height][width];
+        fieldCells = new int[height][width];
         bombCoords = new int[totalMines][2];
     }
 
@@ -45,8 +50,8 @@ public class Field {
 
             for(int j = 0; j < width; j++){
 
-                if(fieldCells[i][j] != 'B'){
-                    fieldCells[i][j] = ' ';
+                if(fieldCells[i][j] != -1){
+                    fieldCells[i][j] = 0;
                 }
             }
         }
@@ -87,7 +92,11 @@ public class Field {
     }
 
     public void updateField(int col, int row){
+        fieldCells[col][row] = numberOfBombsOfCell(col, row);
+    }
 
+    private int numberOfBombsOfCell(int col, int row){
+        return 8;
     }
 
     //=====BOMBS=====
@@ -101,14 +110,14 @@ public class Field {
             int x = getRandom(width);
             int y = getRandom(height);
 
-            if(fieldCells[y][x] == 'B'){
+            if(fieldCells[y][x] == -1){
                 continue;
             }
 
             bombCoords[cellIndex][0] = x;
             bombCoords[cellIndex][1] = y;
 
-            fieldCells[y][x] = 'B';
+            fieldCells[y][x] = -1;
             count++;
 
             cellIndex++;
