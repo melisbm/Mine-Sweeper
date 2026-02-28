@@ -22,14 +22,24 @@ public class Game {
         while(running){
 
             System.out.println(field.fieldToString());
-            System.out.print("\nColumn: ");
-            int rowPick = sc.nextInt();
-            System.out.print("Row: ");
-            int colPick = sc.nextInt();
 
-            field.updateField(rowPick, colPick);
+            System.out.print("\nRow: ");
+            int rowPick = sc.nextInt() - 1;
+
+            System.out.print("Column: ");
+            int colPick = sc.nextInt() - 1;
+            sc.nextLine();
+
+            System.out.print("((R)eveal, (M)ark down: ");
+            String actionPick = sc.next();
+
+            if(field.updateField(rowPick, colPick, actionPick)){
+                System.out.println("You stepped on a mine. You lost!");
+                running = false;
+            }
+
+            System.out.println();
         }
-
     }
 
     public void stopGame(){
