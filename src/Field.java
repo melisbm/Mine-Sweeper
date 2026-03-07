@@ -4,14 +4,7 @@ public class Field {
 
     private int totalMines;
 
-    //[0-8]: num of bombs around
-    //-1: bomb
-    private int[][] fieldCells;
-
-    private boolean[][] markedCells;
-    private boolean[][] revealedCells;
-
-    private int[][] bombCoords;
+    private Cell[][] fieldCells;
 
     int maxSpaces;
 
@@ -25,12 +18,7 @@ public class Field {
 
         maxSpaces = (int) Math.floor(Math.log10(Math.abs(height))) + 1;
 
-        fieldCells = new int[height][width];
-
-        markedCells = new boolean[height][width];
-        revealedCells = new boolean[height][width];
-
-        bombCoords = new int[totalMines][2];
+        fieldCells = new Cell[height][width];
     }
 
     //=====FIELD=====
@@ -39,12 +27,12 @@ public class Field {
 
         placeBombs();
 
-        for(int i = 0; i < height; i++){
+        for(int row = 0; row < height; row++){
 
-            for(int j = 0; j < width; j++){
+            for(int col = 0; col < width; col++){
 
-                if(fieldCells[i][j] != -1){
-                    fieldCells[i][j] = numberOfBombsOfCell(j, i);
+                if( !(fieldCells[row][col] instanceof Bomb) ){
+                    fieldCells[row][col] = new Empty(numberOfBombsOfCell(row, col));
                 }
             }
         }
@@ -75,11 +63,22 @@ public class Field {
             sb.append("|");
 
             for(int j = 0; j < width; j++){
-                if(revealedCells[i][j]){
-                    sb.append(fieldCells[i][j] + "|");
+
+                Cell cell = fieldCells[i][j];
+
+                if(cell.isRevealed()){
+
+                    if(cell instanceof Bomb){
+                        sb.append(((Bomb) cell).getCharacter() + "|");
+                    }
+                    else{
+                        sb.append(((Empty) cell).getNumberOfBombsAround() + "|");
+                    }
+
+
                 }
-                else if(markedCells[i][j]){
-                    sb.append('?' + "|");
+                else if(cell.isFlagged()){
+                    sb.append('P' + "|");
                 }
                 else{
                     sb.append('X' + "|");
@@ -94,8 +93,8 @@ public class Field {
 
     public boolean updateField(int row, int col, String action){
 
-        if(action.equals("M")){
-            markedCells[row][col] = true;
+        if(action.equals("F")){
+            fieldCells[row][col].setFlagged();
         }
         else if(action.equals("R")){
 
@@ -103,7 +102,7 @@ public class Field {
                 return true;
             }
             else{
-                revealedCells[row][col] = true;
+                fieldCells[row][col].setRevealed();
             }
         }
         else{
@@ -114,7 +113,7 @@ public class Field {
     }
 
     private boolean isBombCell(int row, int col){
-        return fieldCells[row][col] == -1;
+        return fieldCells[row][col] instanceof Bomb;
     }
 
     private int numberOfBombsOfCell(int row, int col){
@@ -127,17 +126,17 @@ public class Field {
             if(col + i >= 0
                     && col + i < width
                     && row - 1 >= 0
-                    && fieldCells[row - 1][col + i] == -1){
+                    && fieldCells[row - 1][col + i] instanceof Bomb){
                 count++;
             }
         }
 
         //middle
-        if(col - 1 >= 0 && fieldCells[row][col - 1] == -1){
+        if(col - 1 >= 0 && fieldCells[row][col - 1] instanceof Bomb){
             count++;
         }
 
-        if(col + 1 < width && fieldCells[row][col + 1] == -1){
+        if(col + 1 < width && fieldCells[row][col + 1] instanceof Bomb){
             count++;
         }
 
@@ -147,7 +146,7 @@ public class Field {
             if(col + i >= 0
                     && col + i < width
                     && row + 1 < height
-                    && fieldCells[row + 1][col + i] == -1){
+                    && fieldCells[row + 1][col + i] instanceof Bomb){
 
                 count++;
             }
@@ -164,17 +163,14 @@ public class Field {
 
         while(cellIndex < totalMines){
 
-            int col = getRandom(width);
             int row = getRandom(height);
+            int col = getRandom(width);
 
-            if(fieldCells[row][col] == -1){
+            if(isBombCell(row, col)){
                 continue;
             }
 
-            bombCoords[cellIndex][0] = col;
-            bombCoords[cellIndex][1] = row;
-
-            fieldCells[row][col] = -1;
+            fieldCells[row][col] = new Bomb();
             count++;
 
             cellIndex++;

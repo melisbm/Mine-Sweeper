@@ -30,7 +30,7 @@ public class Game {
             int colPick = sc.nextInt() - 1;
             sc.nextLine();
 
-            System.out.print("((R)eveal, (M)ark down: ");
+            System.out.print("([R]eveal, [F]lag down: ");
             String actionPick = sc.next();
 
             if(field.updateField(rowPick, colPick, actionPick)){
