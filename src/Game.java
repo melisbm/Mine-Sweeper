@@ -5,7 +5,7 @@ public class Game {
     private Scanner sc;
     private boolean running;
 
-    public void startGame(String diffPick){
+    public void startGame(Difficulty diffPick){
 
         Field field = new Field(diffPick);
         field.resetField();

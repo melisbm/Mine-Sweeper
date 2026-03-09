@@ -8,9 +8,9 @@ public class Field {
 
     int maxSpaces;
 
-    public Field(String diffPick){
+    public Field(Difficulty diffPick){
 
-        int[] diffSettings = Difficulty.getSettings(diffPick);
+        int[] diffSettings = diffPick.settings();
 
         width = diffSettings[0];
         height = diffSettings[1];

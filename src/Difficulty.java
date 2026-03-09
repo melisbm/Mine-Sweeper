@@ -1,23 +1,24 @@
-public class Difficulty {
+public enum Difficulty{
+    //DIFF.settings = { width, height, bombs }
+    EASY {
+        @Override
+        public int[] settings() {
+            return new int[]{9, 9, 10};
+        }
+    },
+    MEDIUM {
+        @Override
+        public int[] settings() {
+            return new int[]{ 16, 16, 40 };
+        }
+    },
+    EXPERT {
+        @Override
+        public int[] settings() {
+            return new int[]{ 16, 30, 99 };
+        }
+    };
 
-    //{ width, height, bombs }
-    private static final int[] EASY = { 9, 9, 10 };
-    private static final int[] MEDIUM = { 16, 16, 40 };
-    private static final int[] EXPERT = { 16, 30, 99 };
-
-    public static int[] getSettings(String diff){
-
-        if(diff.equals("easy")){
-            return EASY;
-        }
-        else if(diff.equals("medium")){
-            return MEDIUM;
-        }
-        else if(diff.equals("hard")){
-            return EXPERT;
-        }
-        else{
-            throw new IllegalArgumentException("Difficulty can only be easy, medium or hard");
-        }
-    }
+    public abstract int[] settings();
 }
+
