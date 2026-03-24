@@ -3,11 +3,11 @@ package Cells;
 public interface Cell {
 
     public boolean isFlagged();
-    public void setFlagged();
+    public void toggleFlagged();
 
     public boolean isRevealed();
-    public void setRevealed();
+    public void reveal();
 
-    public static char flaggedCharacter = 'P';
+    public static final char FLAGGED_CHARACTER = 'P';
 
 }

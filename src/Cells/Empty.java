@@ -2,26 +2,13 @@ package Cells;
 
 public class Empty implements Cell {
 
-    private int numberOfBombsAround;
+    private int numberOfAdjacentBombs;
 
     private boolean isFlagged = false;
     private boolean isRevealed = false;
 
-    public Empty(){
-    }
-
-    public Empty(int numberOfBombsAround){
-        this.numberOfBombsAround = numberOfBombsAround;
-    }
-
-    @Override
-    public void setFlagged(){
-        isFlagged = true;
-    }
-
-    @Override
-    public void setRevealed(){
-        isRevealed = true;
+    public Empty(int numberOfAdjacentBombs){
+        this.numberOfAdjacentBombs = numberOfAdjacentBombs;
     }
 
     @Override
@@ -29,17 +16,23 @@ public class Empty implements Cell {
         return isFlagged;
     }
 
+    @Override
+    public void toggleFlagged(){
+        isFlagged = !isFlagged;
+    }
+
+    @Override
+    public void reveal(){
+        isRevealed = true;
+    }
+
+    @Override
     public boolean isRevealed(){
         return isRevealed;
     }
 
-    public int getNumberOfBombsAround(){
-        return numberOfBombsAround;
+    public int getAdjacentBombs(){
+        return numberOfAdjacentBombs;
     }
-
-    public void setNumberOfBombsAround(int bombs){
-        numberOfBombsAround = bombs;
-    }
-
 
 }

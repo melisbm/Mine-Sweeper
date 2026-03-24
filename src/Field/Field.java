@@ -76,14 +76,14 @@ public class Field {
                 if(cell.isRevealed()){
 
                     if(cell instanceof Bomb){
-                        sb.append(((Bomb) cell).getCharacter() + "|");
+                        sb.append(Bomb.CHARACTER + "|");
                     }
                     else{
-                        sb.append(((Empty) cell).getNumberOfBombsAround() + "|");
+                        sb.append(((Empty) cell).getAdjacentBombs() + "|");
                     }
                 }
                 else if(cell.isFlagged()){
-                    sb.append(Cell.flaggedCharacter + "|");
+                    sb.append(Cell.FLAGGED_CHARACTER + "|");
                 }
                 else{
                     sb.append('X' + "|");
@@ -99,7 +99,7 @@ public class Field {
     public boolean updateField(int row, int col, String action){
 
         if(action.equals("F")){
-            fieldCells[row][col].setFlagged();
+            fieldCells[row][col].toggleFlagged();
         }
         else if(action.equals("R")){
 
@@ -107,7 +107,7 @@ public class Field {
                 return true;
             }
             else{
-                fieldCells[row][col].setRevealed();
+                fieldCells[row][col].reveal();
             }
         }
         else{

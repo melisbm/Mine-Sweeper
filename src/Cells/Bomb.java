@@ -2,7 +2,7 @@ package Cells;
 
 public class Bomb implements Cell {
 
-    private final char CHARACTER = 'B';
+    public static final char CHARACTER = 'B';
 
     private boolean isFlagged = false;
     private boolean isRevealed = false;
@@ -16,16 +16,12 @@ public class Bomb implements Cell {
     }
 
     @Override
-    public void setFlagged(){
-        isFlagged = true;
-    }
-
-    public char getCharacter(){
-        return CHARACTER;
+    public void toggleFlagged(){
+        isFlagged = !isFlagged;
     }
 
     @Override
-    public void setRevealed(){
+    public void reveal(){
         isRevealed = true;
     }
 
