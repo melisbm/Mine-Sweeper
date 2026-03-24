@@ -1,4 +1,6 @@
-public class Bomb implements Cell{
+package Cells;
+
+public class Bomb implements Cell {
 
     private final char CHARACTER = 'B';
 

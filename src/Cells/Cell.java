@@ -1,3 +1,5 @@
+package Cells;
+
 public interface Cell {
 
     public boolean isFlagged();
@@ -6,8 +8,6 @@ public interface Cell {
     public boolean isRevealed();
     public void setRevealed();
 
-    public default char getFlaggedCharacter(){
-        return 'P';
-    }
+    public static char flaggedCharacter = 'P';
 
 }

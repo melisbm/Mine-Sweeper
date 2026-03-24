@@ -1,4 +1,6 @@
-public class Empty implements Cell{
+package Cells;
+
+public class Empty implements Cell {
 
     private int numberOfBombsAround;
 

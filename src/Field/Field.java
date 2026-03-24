@@ -1,3 +1,10 @@
+package Field;
+
+import Game.Difficulty;
+import Cells.Bomb;
+import Cells.Cell;
+import Cells.Empty;
+
 public class Field {
     private int height;
     private int width;
@@ -74,11 +81,9 @@ public class Field {
                     else{
                         sb.append(((Empty) cell).getNumberOfBombsAround() + "|");
                     }
-
-
                 }
                 else if(cell.isFlagged()){
-                    sb.append('P' + "|");
+                    sb.append(Cell.flaggedCharacter + "|");
                 }
                 else{
                     sb.append('X' + "|");
@@ -153,6 +158,10 @@ public class Field {
         }
 
         return count;
+    }
+
+    private void revealEmptiness(){
+
     }
 
     //=====BOMBS=====

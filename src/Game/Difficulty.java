@@ -1,9 +1,11 @@
+package Game;
+
 public enum Difficulty{
     //DIFF.settings = { width, height, bombs }
     EASY {
         @Override
         public int[] settings() {
-            return new int[]{9, 9, 10};
+            return new int[]{ 9, 9, 10 };
         }
     },
     MEDIUM {
@@ -21,4 +23,3 @@ public enum Difficulty{
 
     public abstract int[] settings();
 }
-

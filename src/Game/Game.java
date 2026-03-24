@@ -1,3 +1,7 @@
+package Game;
+
+import Field.Field;
+
 import java.util.*;
 
 public class Game {
@@ -30,7 +34,7 @@ public class Game {
             int colPick = sc.nextInt() - 1;
             sc.nextLine();
 
-            System.out.print("([R]eveal, [F]lag down: ");
+            System.out.print("([R]eveal, [F]lag down): ");
             String actionPick = sc.next();
 
             if(field.updateField(rowPick, colPick, actionPick)){
