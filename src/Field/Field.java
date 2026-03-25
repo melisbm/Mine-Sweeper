@@ -1,13 +1,12 @@
 package Field;
 
 import Game.Difficulty;
-import Cells.Bomb;
-import Cells.Cell;
-import Cells.Empty;
+import Cells.*;
+import Field.Utils.*;
 
 public class Field {
-    private int height;
-    private int width;
+    private int rows;
+    private int columns;
 
     private int totalMines;
 
@@ -19,13 +18,11 @@ public class Field {
 
         int[] diffSettings = diffPick.settings();
 
-        width = diffSettings[0];
-        height = diffSettings[1];
+        columns = diffSettings[0];
+        rows = diffSettings[1];
         totalMines = diffSettings[2];
 
-        maxSpaces = (int) Math.floor(Math.log10(Math.abs(height))) + 1;
-
-        fieldCells = new Cell[height][width];
+        fieldCells = new Cell[rows][columns];
     }
 
     //=====FIELD=====
@@ -34,66 +31,15 @@ public class Field {
 
         placeBombs();
 
-        for(int row = 0; row < height; row++){
+        for(int row = 0; row < rows; row++){
 
-            for(int col = 0; col < width; col++){
+            for(int col = 0; col < columns; col++){
 
                 if( !(fieldCells[row][col] instanceof Bomb) ){
-                    fieldCells[row][col] = new Empty(numberOfBombsOfCell(row, col));
+                    fieldCells[row][col] = new Empty(FieldUtils.numberOfBombsOnCell(row, col, this));
                 }
             }
         }
-    }
-
-    public String fieldToString(){
-
-        StringBuilder sb = new StringBuilder();
-        sb.append(" ".repeat(maxSpaces + 2));
-
-        for(int i = 0; i < width; i++){
-            sb.append((i + 1) + " ");
-        }
-
-        sb.append("\n");
-
-        int numSpaces = maxSpaces;
-        int count = 0;
-
-        for(int i = 0; i < height; i++){
-
-            if(count++ == 9){
-                count = 0;
-                numSpaces--;
-            }
-
-            sb.append(i + 1 + " ".repeat(numSpaces));
-            sb.append("|");
-
-            for(int j = 0; j < width; j++){
-
-                Cell cell = fieldCells[i][j];
-
-                if(cell.isRevealed()){
-
-                    if(cell instanceof Bomb){
-                        sb.append(Bomb.CHARACTER + "|");
-                    }
-                    else{
-                        sb.append(((Empty) cell).getAdjacentBombs() + "|");
-                    }
-                }
-                else if(cell.isFlagged()){
-                    sb.append(Cell.FLAGGED_CHARACTER + "|");
-                }
-                else{
-                    sb.append('X' + "|");
-                }
-            }
-
-            sb.append("\n");
-        }
-
-        return sb.toString();
     }
 
     public boolean updateField(int row, int col, String action){
@@ -103,7 +49,7 @@ public class Field {
         }
         else if(action.equals("R")){
 
-            if(isBombCell(row, col)){
+            if(FieldUtils.isBombCell(fieldCells[row][col])){
                 return true;
             }
             else{
@@ -117,65 +63,24 @@ public class Field {
         return false;
     }
 
-    private boolean isBombCell(int row, int col){
-        return fieldCells[row][col] instanceof Bomb;
-    }
-
-    private int numberOfBombsOfCell(int row, int col){
-
-        int count = 0;
-
-        //top
-        for(int i = -1; i <= 1; i++){
-
-            if(col + i >= 0
-                    && col + i < width
-                    && row - 1 >= 0
-                    && fieldCells[row - 1][col + i] instanceof Bomb){
-                count++;
-            }
-        }
-
-        //middle
-        if(col - 1 >= 0 && fieldCells[row][col - 1] instanceof Bomb){
-            count++;
-        }
-
-        if(col + 1 < width && fieldCells[row][col + 1] instanceof Bomb){
-            count++;
-        }
-
-        //bottom
-        for(int i = -1; i <= 1; i++){
-
-            if(col + i >= 0
-                    && col + i < width
-                    && row + 1 < height
-                    && fieldCells[row + 1][col + i] instanceof Bomb){
-
-                count++;
-            }
-        }
-
-        return count;
-    }
-
     private void revealEmptiness(){
 
     }
 
-    //=====BOMBS=====
-
     private void placeBombs(){
+
+
         int count = 0;
         int cellIndex = 0;
 
         while(cellIndex < totalMines){
 
-            int row = getRandom(height);
-            int col = getRandom(width);
+            int row = FieldUtils.getRandomPosFromLength(rows);
+            int col = FieldUtils.getRandomPosFromLength(columns);
 
-            if(isBombCell(row, col)){
+            Cell cell = fieldCells[row][col];
+
+            if(FieldUtils.isBombCell(cell)){
                 continue;
             }
 
@@ -184,11 +89,20 @@ public class Field {
 
             cellIndex++;
         }
+
         System.out.println(count);
     }
 
-    private int getRandom(int num){
-        return (int) (num * Math.random());
+    //=====Getters=====
+    public int getColumns(){
+        return columns;
     }
 
+    public int getRows(){
+        return columns;
+    }
+
+    public Cell[][] getFieldCells(){
+        return fieldCells;
+    }
 }

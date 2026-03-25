@@ -9,5 +9,6 @@ public interface Cell {
     public void reveal();
 
     public static final char FLAGGED_CHARACTER = 'P';
+    public static final char NOT_REVEALED_CHARACTER = 'X';
 
 }

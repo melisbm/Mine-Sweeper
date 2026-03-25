@@ -2,6 +2,7 @@ package Cells;
 
 public class Empty implements Cell {
 
+    public static char ZERO_CELL_CHARACTER = ' ';
     private int numberOfAdjacentBombs;
 
     private boolean isFlagged = false;
@@ -33,6 +34,15 @@ public class Empty implements Cell {
 
     public int getAdjacentBombs(){
         return numberOfAdjacentBombs;
+    }
+
+    public char getCellCharacter(){
+
+        if(numberOfAdjacentBombs == 0){
+            return Cell.NOT_REVEALED_CHARACTER;
+        }
+
+        return (char) (numberOfAdjacentBombs + 48);
     }
 
 }

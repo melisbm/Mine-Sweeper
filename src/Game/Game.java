@@ -1,6 +1,7 @@
 package Game;
 
 import Field.Field;
+import Field.Utils.FieldStringUtils;
 
 import java.util.*;
 
@@ -25,7 +26,7 @@ public class Game {
 
         while(running){
 
-            System.out.println(field.fieldToString());
+            System.out.println(FieldStringUtils.fieldToString(field));
 
             System.out.print("\nRow: ");
             int rowPick = sc.nextInt() - 1;
