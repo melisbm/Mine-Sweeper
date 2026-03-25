@@ -14,18 +14,17 @@ public class Field {
 
     int maxSpaces;
 
-    public Field(Difficulty diffPick){
+    public Field(Difficulty diff){
 
-        int[] diffSettings = diffPick.settings();
+        rows = diff.getRows();
+        columns = diff.getColumns();
 
-        columns = diffSettings[0];
-        rows = diffSettings[1];
-        totalMines = diffSettings[2];
+        totalMines = diff.getBombs();
 
         fieldCells = new Cell[rows][columns];
-    }
 
-    //=====FIELD=====
+        resetField();
+    }
 
     public void resetField(){
 

@@ -32,14 +32,10 @@ public class Empty implements Cell {
         return isRevealed;
     }
 
-    public int getAdjacentBombs(){
-        return numberOfAdjacentBombs;
-    }
-
     public char getCellCharacter(){
 
         if(numberOfAdjacentBombs == 0){
-            return Cell.NOT_REVEALED_CHARACTER;
+            return ZERO_CELL_CHARACTER;
         }
 
         return (char) (numberOfAdjacentBombs + 48);

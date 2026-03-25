@@ -13,7 +13,6 @@ public class Game {
     public void startGame(Difficulty diffPick){
 
         Field field = new Field(diffPick);
-        field.resetField();
 
         sc = new Scanner(System.in);
 
