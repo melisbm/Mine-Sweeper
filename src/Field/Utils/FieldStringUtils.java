@@ -3,16 +3,18 @@ package Field.Utils;
 import Cells.*;
 import Field.Field;
 
+import static Field.Utils.FieldUtils.isBombCell;
+
 public class FieldStringUtils {
 
     public static java.lang.String fieldToString(Field field){
 
-        int columns = field.getRows();
-        int rows = field.getColumns();
+        int columns = field.getColumns();
+        int rows = field.getRows();
 
         int maxSpaces = (int) Math.floor(Math.log10(Math.abs(rows))) + 1;
 
-        Cell[][] fieldCells = field.getFieldCells();
+        Cell[][] fieldCells = field.getField();
 
         StringBuilder sb = new StringBuilder();
         sb.append(" ".repeat(maxSpaces + 2));
@@ -42,7 +44,7 @@ public class FieldStringUtils {
 
                 if(cell.isRevealed()){
 
-                    if(cell instanceof Bomb){
+                    if(isBombCell(cell)){
                         sb.append(Bomb.CHARACTER + "|");
                     }
                     else{

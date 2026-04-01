@@ -9,19 +9,23 @@ public class Game {
 
     private Scanner sc;
     private boolean running;
+    private GameStateManager gameStateManager;
 
-    public void startGame(Difficulty diffPick){
+    private Field field;
 
-        Field field = new Field(diffPick);
+    public void newGame(Difficulty diffPick){
+
+        field = new Field(diffPick);
 
         sc = new Scanner(System.in);
 
+        gameStateManager = new GameStateManager();
         running = true;
 
-        gameLoop(field);
+        gameLoop();
     }
 
-    public void gameLoop(Field field){
+    public void gameLoop(){
 
         while(running){
 
@@ -37,10 +41,7 @@ public class Game {
             System.out.print("([R]eveal, [F]lag down): ");
             String actionPick = sc.next();
 
-            if(field.updateField(rowPick, colPick, actionPick)){
-                System.out.println("You stepped on a mine. You lost!");
-                running = false;
-            }
+            field.updateField(rowPick, colPick, actionPick, gameStateManager);
 
             System.out.println();
         }

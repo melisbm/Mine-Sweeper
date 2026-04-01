@@ -2,17 +2,19 @@ package Field;
 
 import Game.Difficulty;
 import Cells.*;
-import Field.Utils.*;
+import Game.GameState;
+import Game.GameStateManager;
+
+import static Field.Utils.FieldUtils.*;
 
 public class Field {
+
     private int rows;
     private int columns;
 
     private int totalMines;
 
-    private Cell[][] fieldCells;
-
-    int maxSpaces;
+    private Cell[][] field;
 
     public Field(Difficulty diff){
 
@@ -21,7 +23,7 @@ public class Field {
 
         totalMines = diff.getBombs();
 
-        fieldCells = new Cell[rows][columns];
+        field = new Cell[rows][columns];
 
         resetField();
     }
@@ -31,59 +33,77 @@ public class Field {
         placeBombs();
 
         for(int row = 0; row < rows; row++){
-
             for(int col = 0; col < columns; col++){
 
-                if( !(fieldCells[row][col] instanceof Bomb) ){
-                    fieldCells[row][col] = new Empty(FieldUtils.numberOfBombsOnCell(row, col, this));
+                if( !isBombCell((field[row][col])) ){
+                    field[row][col] = new Empty(row, col, this);
                 }
             }
         }
+
+        for(int row = 0; row < rows; row++){
+            for(int col = 0; col < columns; col++){
+
+                Cell cell = field[row][col];
+
+                if( !isBombCell((cell)) ){
+                    ((Empty) (cell)).setAdjacentBombs();
+                }
+            }
+        }
+
+
     }
 
-    public boolean updateField(int row, int col, String action){
+    public void updateField(int row, int col, String action, GameStateManager gameStateManager){
+
+        Cell cell = field[row][col];
 
         if(action.equals("F")){
-            fieldCells[row][col].toggleFlagged();
+            cell.toggleFlagged();
         }
-        else if(action.equals("R")){
+        else if(action.equals("R")) {
 
-            if(FieldUtils.isBombCell(fieldCells[row][col])){
-                return true;
+            if (isBombCell(cell)) {
+                gameStateManager.setGameState(GameState.Loose);
+
+            } else if (isEmptyCell(cell)) {
+
+                if (((Empty) cell).getAdjacentBombs() == 0){
+                    revealEmptiness(row, col);
+                }
             }
-            else{
-                fieldCells[row][col].reveal();
-            }
+
+            cell.reveal();
         }
         else{
             throw new IllegalArgumentException("Action can only be reveal or mark down.");
         }
-
-        return false;
     }
 
-    private void revealEmptiness(){
-
+    private void revealEmptiness(int row, int col){
+//        if(numberOfAdjacentBombsOn(row, col, this) ){
+//
+//        }
     }
 
     private void placeBombs(){
-
 
         int count = 0;
         int cellIndex = 0;
 
         while(cellIndex < totalMines){
 
-            int row = FieldUtils.getRandomPosFromLength(rows);
-            int col = FieldUtils.getRandomPosFromLength(columns);
+            int row = getRandomPosFromLength(rows);
+            int col = getRandomPosFromLength(columns);
 
-            Cell cell = fieldCells[row][col];
+            Cell cell = field[row][col];
 
-            if(FieldUtils.isBombCell(cell)){
+            if(isBombCell(cell)){
                 continue;
             }
 
-            fieldCells[row][col] = new Bomb();
+            field[row][col] = new Bomb();
             count++;
 
             cellIndex++;
@@ -101,7 +121,7 @@ public class Field {
         return columns;
     }
 
-    public Cell[][] getFieldCells(){
-        return fieldCells;
+    public Cell[][] getField(){
+        return field;
     }
 }

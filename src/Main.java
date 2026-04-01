@@ -1,5 +1,4 @@
 import Game.*;
-
 import java.lang.*;
 
 public class Main {
@@ -7,7 +6,7 @@ public class Main {
 
         Game game = new Game();
 
-        game.startGame(Difficulty.EASY);
+        game.newGame(Difficulty.EASY);
         game.stopGame();
     }
 }

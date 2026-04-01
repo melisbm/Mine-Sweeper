@@ -1,11 +1,18 @@
 package Cells;
 
+import Field.Field;
+
 public class Bomb implements Cell {
 
     public static final char CHARACTER = 'B';
 
     private boolean isFlagged = false;
     private boolean isRevealed = false;
+
+    private int row;
+    private int column;
+
+    private Field field;
 
     public Bomb(){
     }
@@ -29,4 +36,21 @@ public class Bomb implements Cell {
     public boolean isRevealed(){
         return isRevealed;
     }
+
+    @Override
+    public int getRow(){
+        return row;
+    }
+
+    @Override
+    public int getColumn(){
+        return column;
+    }
+
+    @Override
+    public Field getField() {
+        return field;
+    }
+
+
 }
