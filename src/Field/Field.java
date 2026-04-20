@@ -101,6 +101,7 @@ public class Field {
         }
     }
 
+    //todo: refactor
     private void revealEmptiness(Cell startingCell) {
 
         Cell[] cellRound = { startingCell };
@@ -116,9 +117,14 @@ public class Field {
 
                 //{ left, right, upper, down }
                 int[][] AdjacentCellsCoords = { { cellRow, cellCol - 1 },
-                                               { cellRow, cellCol + 1 },
-                                               { cellRow - 1, cellCol },
-                                               { cellRow + 1, cellCol } };
+                                                { cellRow, cellCol + 1 },
+                                                { cellRow - 1, cellCol },
+                                                { cellRow + 1, cellCol },
+                                                { cellRow - 1, cellCol - 1},
+                                                { cellRow + 1, cellCol + 1},
+                                                { cellRow - 1, cellCol + 1},
+                                                { cellRow + 1, cellCol - 1} };
+
 
                 for(int[] cellCoords : AdjacentCellsCoords){
 
@@ -129,7 +135,7 @@ public class Field {
 
                         Cell adjacentCell = field[adjacentCellRow][adjacentCellCol];
 
-                        if(isEmptyCell(adjacentCell) && !adjacentCell.isRevealed()){
+                        if(isEmptyCell(adjacentCell) && !adjacentCell.isRevealed() && ((Empty) cell).getAdjacentBombs() == 0){
 
                             adjacentCell.reveal();
                             newCellRound.add(adjacentCell);
