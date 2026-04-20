@@ -1,6 +1,5 @@
 package Field;
 
-import Field.Utils.FieldUtils;
 import Game.Difficulty;
 import Cells.*;
 import Game.GameState;
@@ -18,6 +17,9 @@ public class Field {
     private int totalMines;
 
     private Cell[][] field;
+    private List<Cell> flaggedCells = new ArrayList<>();
+
+    private int totalFlaggedCells = 0;
 
     public Field(Difficulty diff){
 
@@ -61,7 +63,24 @@ public class Field {
         Cell cell = field[row][col];
 
         if(action.equals("F")){
+
             cell.toggleFlagged();
+            flaggedCells.add(cell);
+
+            totalFlaggedCells++;
+
+            if(totalFlaggedCells == totalMines){
+
+                for(Cell flaggedCell : flaggedCells){
+
+                    if(!isBombCell(flaggedCell)){
+                        break;
+                    }
+
+                    gameStateManager.setGameState(GameState.Win);
+                }
+            }
+
         }
         else if(action.equals("R")) {
 
@@ -139,7 +158,8 @@ public class Field {
                 continue;
             }
 
-            field[row][col] = new Bomb();
+            Bomb bomb = new Bomb();
+            field[row][col] = bomb;
             count++;
 
             cellIndex++;

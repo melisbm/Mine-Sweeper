@@ -6,6 +6,7 @@ public class Main {
 
         Game game = new Game();
         //todo: reveal all bombs on endgame
+        //todo: make sure you can only flag down unrevealed cells
         game.newGame(Difficulty.EASY);
     }
 }

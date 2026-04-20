@@ -38,17 +38,29 @@ public class Game {
             int colPick = sc.nextInt() - 1;
             sc.nextLine();
 
+            //todo: add remove flag feature
             System.out.print("([R]eveal, [F]lag down): ");
             String actionPick = sc.next();
 
             field.updateField(rowPick, colPick, actionPick, gameStateManager);
 
-            if(gameStateManager.getGameState() == GameState.Loose){
+            GameState gameState = gameStateManager.getGameState();
 
-                System.out.println(FieldStringUtils.fieldToString(field));
-                System.out.println("You stepped on a mine. You lost!");
+            switch(gameState){
 
-                stopGame();
+                case GameState.Loose:
+
+                    System.out.println(FieldStringUtils.fieldToString(field));
+                    System.out.println("You stepped on a mine. You lost!");
+
+                    stopGame();
+
+                case GameState.Win:
+
+                    System.out.println(FieldStringUtils.fieldToString(field));
+                    System.out.println("You flagged every mine correctly. You win!");
+
+                    stopGame();
             }
 
             System.out.println();
@@ -56,6 +68,7 @@ public class Game {
     }
 
     public void stopGame(){
+
         sc.close();
         running = false;
     }
