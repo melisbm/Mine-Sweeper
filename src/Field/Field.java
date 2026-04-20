@@ -1,9 +1,12 @@
 package Field;
 
+import Field.Utils.FieldUtils;
 import Game.Difficulty;
 import Cells.*;
 import Game.GameState;
 import Game.GameStateManager;
+
+import java.util.*;
 
 import static Field.Utils.FieldUtils.*;
 
@@ -68,7 +71,7 @@ public class Field {
             } else if (isEmptyCell(cell)) {
 
                 if (((Empty) cell).getAdjacentBombs() == 0){
-                    revealEmptiness(row, col);
+                    revealEmptiness(cell);
                 }
             }
 
@@ -79,10 +82,45 @@ public class Field {
         }
     }
 
-    private void revealEmptiness(int row, int col){
-//        if(numberOfAdjacentBombsOn(row, col, this) ){
-//
-//        }
+    private void revealEmptiness(Cell startingCell) {
+
+        Cell[] cellRound = { startingCell };
+
+        while(cellRound.length != 0){
+
+            List<Cell> newCellRound = new ArrayList<>();
+
+            for(Cell cell : cellRound){
+
+                int cellRow = cell.getRow();
+                int cellCol = cell.getColumn();
+
+                //{ left, right, upper, down }
+                int[][] AdjacentCellsCoords = { { cellRow, cellCol - 1 },
+                                               { cellRow, cellCol + 1 },
+                                               { cellRow - 1, cellCol },
+                                               { cellRow + 1, cellCol } };
+
+                for(int[] cellCoords : AdjacentCellsCoords){
+
+                    int adjacentCellRow = cellCoords[0];
+                    int adjacentCellCol = cellCoords[1];
+
+                    if(adjacentCellRow < rows && adjacentCellCol < columns && adjacentCellRow >= 0 && adjacentCellCol >= 0){
+
+                        Cell adjacentCell = field[adjacentCellRow][adjacentCellCol];
+
+                        if(isEmptyCell(adjacentCell) && !adjacentCell.isRevealed()){
+
+                            adjacentCell.reveal();
+                            newCellRound.add(adjacentCell);
+                        }
+                    }
+                }
+            }
+
+            cellRound = newCellRound.toArray(new Cell[0]);
+        }
     }
 
     private void placeBombs(){
