@@ -43,6 +43,14 @@ public class Game {
 
             field.updateField(rowPick, colPick, actionPick, gameStateManager);
 
+            if(gameStateManager.getGameState() == GameState.Loose){
+
+                System.out.println(FieldStringUtils.fieldToString(field));
+                System.out.println("You stepped on a mine. You lost!");
+
+                stopGame();
+            }
+
             System.out.println();
         }
     }

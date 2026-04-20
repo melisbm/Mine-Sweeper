@@ -51,8 +51,6 @@ public class Field {
                 }
             }
         }
-
-
     }
 
     public void updateField(int row, int col, String action, GameStateManager gameStateManager){
