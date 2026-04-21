@@ -54,6 +54,7 @@ public class Game {
                     System.out.println("You stepped on a mine. You lost!");
 
                     stopGame();
+                    break;
 
                 case GameState.Win:
 
@@ -61,6 +62,7 @@ public class Game {
                     System.out.println("You flagged every mine correctly. You win!");
 
                     stopGame();
+                    break;
             }
 
             System.out.println();

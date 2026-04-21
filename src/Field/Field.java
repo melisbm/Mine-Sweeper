@@ -125,7 +125,6 @@ public class Field {
                                                 { cellRow - 1, cellCol + 1},
                                                 { cellRow + 1, cellCol - 1} };
 
-
                 for(int[] cellCoords : AdjacentCellsCoords){
 
                     int adjacentCellRow = cellCoords[0];
