@@ -33,6 +33,7 @@ public class Game {
 
             System.out.print("\nRow: ");
             int rowPick = sc.nextInt() - 1;
+            sc.nextLine();
 
             System.out.print("Column: ");
             int colPick = sc.nextInt() - 1;
