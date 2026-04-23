@@ -15,7 +15,11 @@ public class Game {
 
     public void newGame(Difficulty diffPick){
 
-        field = new Field(diffPick);
+        int fieldRows = diffPick.getRows();
+        int fieldColumns = diffPick.getColumns();
+        int fieldMines = diffPick.getBombs();
+
+        field = new Field(fieldRows, fieldColumns, fieldMines);
 
         sc = new Scanner(System.in);
         totalMines = field.getTotalMines();

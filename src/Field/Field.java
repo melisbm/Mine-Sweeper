@@ -1,7 +1,5 @@
 package Field;
 
-import Game.Difficulty;
-
 import java.util.*;
 
 public class Field {
@@ -17,12 +15,11 @@ public class Field {
     private String stringField;
     private String revealedStringField;
 
-    public Field(Difficulty diff){
+    public Field(int rows, int columns, int totalMines){
 
-        rows = diff.getRows();
-        columns = diff.getColumns();
-
-        totalMines = diff.getBombs();
+        this.rows = rows;
+        this.columns = columns;
+        this.totalMines = totalMines;
 
         field = new Cell[rows][columns];
 
