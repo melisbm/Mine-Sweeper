@@ -6,8 +6,6 @@ import Game.GameStateManager;
 
 import java.util.*;
 
-import static Field.Utils.FieldUtils.*;
-
 public class Field {
 
     private int rows;
@@ -18,7 +16,8 @@ public class Field {
     private Cell[][] field;
     private List<Cell> flaggedCells = new ArrayList<>();
 
-    private int totalFlaggedCells = 0;
+    private String stringField;
+    private String revealedStringField;
 
     public Field(Difficulty diff){
 
@@ -36,6 +35,8 @@ public class Field {
         placeBombs();
         fillField();
         loadCells();
+        stringField = this.toString();
+        revealedStringField = this.calculateRevealedStringField();
     }
 
     public void updateField(int row, int col, String action, GameStateManager gameStateManager){
@@ -44,12 +45,12 @@ public class Field {
 
         if(action.equals("F")){
 
+            if ( cell.isFlagged() ) flaggedCells.remove(cell);
+            else flaggedCells.add(cell);
+
             cell.toggleFlagged();
-            flaggedCells.add(cell);
 
-            totalFlaggedCells++;
-
-            if(totalFlaggedCells == totalMines){
+            if(flaggedCells.size() == totalMines){
 
                 for(Cell flaggedCell : flaggedCells){
 
@@ -77,6 +78,8 @@ public class Field {
         else{
             throw new IllegalArgumentException("Action can only be reveal or mark down.");
         }
+
+        stringField = this.toString();
     }
 
     private void revealEmptiness(int startRow, int startCol) {
@@ -161,8 +164,10 @@ public class Field {
 
             cellIndex++;
         }
+    }
 
-        System.out.println(count);
+    public static int getRandomPosFromLength(int length){
+        return (int) (length * Math.random());
     }
 
     private void fillField(){
@@ -179,6 +184,94 @@ public class Field {
         }
     }
 
+    public String toString(){
+
+        int maxSpaces = (int) Math.floor(Math.log10(Math.abs(rows))) + 1;
+
+        StringBuilder sb = new StringBuilder();
+        sb.append(" ".repeat(maxSpaces + 2));
+
+        for(int col = 0; col < columns; col++){
+            sb.append((col + 1) + " ");
+        }
+
+        sb.append("\n");
+
+        int numSpaces = maxSpaces;
+        int count = 0;
+
+        for(int row = 0; row < rows; row++){
+
+            if(count++ == 9){
+                count = 0;
+                numSpaces--;
+            }
+
+            sb.append(row + 1 + " ".repeat(numSpaces));
+            sb.append("|");
+
+            for(int col = 0; col < columns; col++){
+
+                Cell cell = field[row][col];
+
+                sb.append(cell.getCharacter() + "|");
+            }
+
+            sb.append("\n");
+        }
+
+        return sb.toString();
+    }
+
+    private String calculateRevealedStringField(){
+
+        int maxSpaces = (int) Math.floor(Math.log10(Math.abs(rows))) + 1;
+
+        StringBuilder sb = new StringBuilder();
+        sb.append(" ".repeat(maxSpaces + 2));
+
+        for(int col = 0; col < columns; col++){
+            sb.append((col + 1) + " ");
+        }
+
+        sb.append("\n");
+
+        int numSpaces = maxSpaces;
+        int count = 0;
+
+        for(int row = 0; row < rows; row++){
+
+            if(count++ == 9){
+                count = 0;
+                numSpaces--;
+            }
+
+            sb.append(row + 1 + " ".repeat(numSpaces));
+            sb.append("|");
+
+            for(int col = 0; col < columns; col++){
+
+                Cell cell = field[row][col];
+
+                if (cell.isBomb()){
+                    sb.append(Cell.BOMB_CHARACTER + "|");
+                }
+                else{
+                    int numberOfAdjacentBombs = cell.getNumberOfAdjacentBombs();
+                    sb.append( ((numberOfAdjacentBombs == 0)
+                            ? Cell.NO_ADJACENT_BOMBS_CELL_CHARACTER
+                            : (char) (numberOfAdjacentBombs + 48)) + "|");
+                }
+            }
+
+            if(row != rows - 1){
+                sb.append("\n");
+            }
+        }
+
+        return sb.toString();
+    }
+
     //=====Getters=====
     public int getColumns(){
         return columns;
@@ -190,5 +283,21 @@ public class Field {
 
     public Cell[][] getField(){
         return field;
+    }
+
+    public String getStringField() {
+        return stringField;
+    }
+
+    public String getRevealedStringField() {
+        return revealedStringField;
+    }
+
+    public int getTotalMines(){
+        return totalMines;
+    }
+
+    public int getTotalFlaggedCells(){
+        return flaggedCells.size();
     }
 }

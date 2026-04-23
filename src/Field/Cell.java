@@ -29,6 +29,9 @@ public class Cell {
     public boolean isRevealed(){
         return isRevealed;
     }
+    public boolean isFlagged(){
+        return isFlagged;
+    }
     public boolean isBomb(){
         return isBomb;
     }

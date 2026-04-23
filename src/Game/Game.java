@@ -1,7 +1,6 @@
 package Game;
 
 import Field.Field;
-import Field.Utils.FieldStringUtils;
 
 import java.util.*;
 
@@ -10,6 +9,7 @@ public class Game {
     private Scanner sc;
     private boolean running;
     private GameStateManager gameStateManager;
+    int totalMines;
 
     private Field field;
 
@@ -20,8 +20,9 @@ public class Game {
         sc = new Scanner(System.in);
 
         gameStateManager = new GameStateManager();
-        running = true;
+        totalMines = field.getTotalMines();
 
+        running = true;
         gameLoop();
     }
 
@@ -29,9 +30,10 @@ public class Game {
 
         while(running){
 
-            System.out.println(FieldStringUtils.fieldToString(field));
+            System.out.printf("Mines: %d | Flags: %d\n", totalMines, field.getTotalFlaggedCells());
+            System.out.println(field.getStringField());
 
-            System.out.print("\nRow: ");
+            System.out.print("Row: ");
             int rowPick = sc.nextInt() - 1;
             sc.nextLine();
 
@@ -39,7 +41,6 @@ public class Game {
             int colPick = sc.nextInt() - 1;
             sc.nextLine();
 
-            //todo: add remove flag feature
             System.out.print("([R] Reveal, [F] Toggle flag): ");
             String actionPick = sc.next();
 
@@ -51,16 +52,17 @@ public class Game {
 
                 case GameState.Loose:
 
-                    System.out.println(FieldStringUtils.fieldToString(field));
-                    System.out.println("You stepped on a mine. You lost!");
+                    System.out.println("\nYou stepped on a mine. You lost!");
+                    System.out.println("\n" + field.getRevealedStringField());
 
                     stopGame();
                     break;
 
                 case GameState.Win:
 
-                    System.out.println(FieldStringUtils.fieldToString(field));
-                    System.out.println("You flagged every mine correctly. You win!");
+                    System.out.println("\n" + field.getStringField());
+                    System.out.println("\nYou flagged every mine correctly. You win!");
+                    System.out.println("\n" + field.getRevealedStringField());
 
                     stopGame();
                     break;
