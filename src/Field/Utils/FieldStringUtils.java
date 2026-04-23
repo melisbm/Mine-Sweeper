@@ -1,9 +1,7 @@
 package Field.Utils;
 
-import Cells.*;
 import Field.Field;
-
-import static Field.Utils.FieldUtils.isBombCell;
+import Field.Cell;
 
 public class FieldStringUtils {
 
@@ -42,21 +40,7 @@ public class FieldStringUtils {
 
                 Cell cell = fieldCells[row][col];
 
-                if(cell.isRevealed()){
-
-                    if(isBombCell(cell)){
-                        sb.append(Bomb.CHARACTER + "|");
-                    }
-                    else{
-                        sb.append(((Empty) cell).getCellCharacter() + "|");
-                    }
-                }
-                else if(cell.isFlagged()){
-                    sb.append(Cell.FLAGGED_CHARACTER + "|");
-                }
-                else{
-                    sb.append(Cell.NOT_REVEALED_CHARACTER + "|");
-                }
+                sb.append(cell.getCharacter() + "|");
             }
 
             sb.append("\n");

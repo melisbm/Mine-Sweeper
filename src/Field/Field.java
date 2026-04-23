@@ -1,7 +1,6 @@
 package Field;
 
 import Game.Difficulty;
-import Cells.*;
 import Game.GameState;
 import Game.GameStateManager;
 
@@ -34,28 +33,9 @@ public class Field {
     }
 
     public void resetField(){
-
         placeBombs();
-
-        for(int row = 0; row < rows; row++){
-            for(int col = 0; col < columns; col++){
-
-                if( !isBombCell((field[row][col])) ){
-                    field[row][col] = new Empty(row, col, this);
-                }
-            }
-        }
-
-        for(int row = 0; row < rows; row++){
-            for(int col = 0; col < columns; col++){
-
-                Cell cell = field[row][col];
-
-                if( !isBombCell((cell)) ){
-                    ((Empty) (cell)).setAdjacentBombs();
-                }
-            }
-        }
+        fillField();
+        loadCells();
     }
 
     public void updateField(int row, int col, String action, GameStateManager gameStateManager){
@@ -73,24 +53,24 @@ public class Field {
 
                 for(Cell flaggedCell : flaggedCells){
 
-                    if(!isBombCell(flaggedCell)){
+                    if(!flaggedCell.isBomb()){
                         break;
                     }
 
                     gameStateManager.setGameState(GameState.Win);
                 }
             }
-
         }
         else if(action.equals("R")) {
 
-            if (isBombCell(cell)) {
+            if (cell.isBomb()) {
                 gameStateManager.setGameState(GameState.Loose);
+            } else{
 
-            } else if (isEmptyCell(cell)) {
+                cell.setCharacterBasedOnAdjacentBombs();
 
-                if (((Empty) cell).getAdjacentBombs() == 0){
-                    revealEmptiness(cell);
+                if (cell.getNumberOfAdjacentBombs() == 0){
+                    revealEmptiness(row, col);
                 }
             }
 
@@ -101,49 +81,60 @@ public class Field {
         }
     }
 
-    //todo: refactor
-    private void revealEmptiness(Cell startingCell) {
+    private void revealEmptiness(int startRow, int startCol) {
 
-        Cell[] cellRound = { startingCell };
+        List<int[]> currentRound = new ArrayList<>();
+        currentRound.add(new int[]{startRow, startCol});
 
-        while(cellRound.length != 0){
+        while (!currentRound.isEmpty()) {
 
-            List<Cell> newCellRound = new ArrayList<>();
+            List<int[]> nextRound = new ArrayList<>();
 
-            for(Cell cell : cellRound){
+            for (int[] coords : currentRound) {
 
-                int cellRow = cell.getRow();
-                int cellCol = cell.getColumn();
+                int cellRow = coords[0];
+                int cellCol = coords[1];
 
-                //{ left, right, upper, down }
-                int[][] AdjacentCellsCoords = { { cellRow, cellCol - 1 },
-                                                { cellRow, cellCol + 1 },
-                                                { cellRow - 1, cellCol },
-                                                { cellRow + 1, cellCol },
-                                                { cellRow - 1, cellCol - 1},
-                                                { cellRow + 1, cellCol + 1},
-                                                { cellRow - 1, cellCol + 1},
-                                                { cellRow + 1, cellCol - 1} };
+                int[][] adjacent = { { cellRow, cellCol - 1 },
+                                     { cellRow, cellCol + 1 },
+                                     { cellRow - 1, cellCol },
+                                     { cellRow + 1, cellCol },
+                                     { cellRow - 1, cellCol - 1 },
+                                     { cellRow + 1, cellCol + 1 },
+                                     { cellRow - 1, cellCol + 1 },
+                                     { cellRow + 1, cellCol - 1 } };
 
-                for(int[] cellCoords : AdjacentCellsCoords){
+                for (int[] adj : adjacent) {
 
-                    int adjacentCellRow = cellCoords[0];
-                    int adjacentCellCol = cellCoords[1];
+                    int adjRow = adj[0];
+                    int adjCol = adj[1];
 
-                    if(adjacentCellRow < rows && adjacentCellCol < columns && adjacentCellRow >= 0 && adjacentCellCol >= 0){
+                    if (adjRow >= 0 && adjRow < rows && adjCol >= 0 && adjCol < columns) {
 
-                        Cell adjacentCell = field[adjacentCellRow][adjacentCellCol];
+                        Cell adjacentCell = field[adjRow][adjCol];
 
-                        if(isEmptyCell(adjacentCell) && !adjacentCell.isRevealed() && ((Empty) cell).getAdjacentBombs() == 0){
-
+                        if (!adjacentCell.isBomb() && !adjacentCell.isRevealed()) {
                             adjacentCell.reveal();
-                            newCellRound.add(adjacentCell);
+                            adjacentCell.setCharacterBasedOnAdjacentBombs();
+                            nextRound.add(new int[]{adjRow, adjCol});
                         }
                     }
                 }
             }
 
-            cellRound = newCellRound.toArray(new Cell[0]);
+            currentRound = nextRound;
+        }
+    }
+
+    private void loadCells(){
+
+        for(int row = 0; row < rows; row++){
+            for(int col = 0; col < columns; col++){
+
+                Cell cell = field[row][col];
+
+                cell.setNumberOfAdjacentBombs(row, col, this);
+            }
         }
     }
 
@@ -159,11 +150,11 @@ public class Field {
 
             Cell cell = field[row][col];
 
-            if(isBombCell(cell)){
+            if(cell != null && cell.isBomb()){
                 continue;
             }
 
-            Bomb bomb = new Bomb();
+            Cell bomb = new Cell(true);
             field[row][col] = bomb;
             count++;
 
@@ -171,6 +162,20 @@ public class Field {
         }
 
         System.out.println(count);
+    }
+
+    private void fillField(){
+
+        for(int row = 0; row < rows; row++){
+            for(int col = 0; col < columns; col++){
+
+                Cell cell = field[row][col];
+
+                if(cell == null){
+                    field[row][col] = new Cell(false);
+                }
+            }
+        }
     }
 
     //=====Getters=====
