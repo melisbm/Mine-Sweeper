@@ -52,14 +52,14 @@ public class Field {
 
             if(flaggedCells.size() == totalMines){
 
-                for(Cell flaggedCell : flaggedCells){
-
-                    if(!flaggedCell.isBomb()){
+                boolean allCorrect = true;
+                for (Cell flaggedCell : flaggedCells) {
+                    if (!flaggedCell.isBomb()) {
+                        allCorrect = false;
                         break;
                     }
-
-                    gameStateManager.setGameState(GameState.Win);
                 }
+                if (allCorrect) gameStateManager.setGameState(GameState.Win);
             }
         }
         else if(action.equals("R")) {

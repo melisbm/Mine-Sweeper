@@ -7,7 +7,7 @@ public class Cell {
     public static final char BOMB_CHARACTER = 'Q';
     public static char NO_ADJACENT_BOMBS_CELL_CHARACTER = ' ';
 
-    public char CHARACTER;
+    private char currentCharacter;
 
     private boolean isFlagged = false;
     private boolean isRevealed = false;
@@ -21,7 +21,7 @@ public class Cell {
             this.isBomb = true;
         }
 
-        CHARACTER = NOT_REVEALED_CHARACTER;
+        currentCharacter = NOT_REVEALED_CHARACTER;
     }
 
     //=====GETTERS=====
@@ -37,7 +37,7 @@ public class Cell {
     }
 
     public char getCharacter(){
-        return CHARACTER;
+        return currentCharacter;
     }
 
     public int getNumberOfAdjacentBombs(){
@@ -49,7 +49,7 @@ public class Cell {
     public void reveal(){
 
         if(isBomb){
-            CHARACTER = BOMB_CHARACTER;
+            currentCharacter = BOMB_CHARACTER;
         }
         else{
             setCharacterBasedOnAdjacentBombs();
@@ -62,7 +62,7 @@ public class Cell {
         if (!isRevealed){
 
             isFlagged = !isFlagged;
-            CHARACTER = (isFlagged) ? FLAGGED_CHARACTER : NOT_REVEALED_CHARACTER;
+            currentCharacter = (isFlagged) ? FLAGGED_CHARACTER : NOT_REVEALED_CHARACTER;
         }
     }
 
@@ -72,7 +72,7 @@ public class Cell {
 
     private void setCharacterBasedOnAdjacentBombs(){
 
-        CHARACTER = (numberOfAdjacentBombs == 0)
+        currentCharacter = (numberOfAdjacentBombs == 0)
                 ? NO_ADJACENT_BOMBS_CELL_CHARACTER
                 : (char) (numberOfAdjacentBombs + 48);
     }
