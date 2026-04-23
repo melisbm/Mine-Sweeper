@@ -1,6 +1,7 @@
 package Game;
 
 import Field.Field;
+import Field.MoveResult;
 
 import java.util.*;
 
