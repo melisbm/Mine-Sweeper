@@ -67,8 +67,6 @@ public class Field {
                 gameStateManager.setGameState(GameState.Loose);
             } else{
 
-                cell.setCharacterBasedOnAdjacentBombs();
-
                 if (cell.getNumberOfAdjacentBombs() == 0){
                     revealEmptiness(row, col);
                 }
@@ -114,9 +112,12 @@ public class Field {
                         Cell adjacentCell = field[adjRow][adjCol];
 
                         if (!adjacentCell.isBomb() && !adjacentCell.isRevealed()) {
+
                             adjacentCell.reveal();
-                            adjacentCell.setCharacterBasedOnAdjacentBombs();
-                            nextRound.add(new int[]{adjRow, adjCol});
+
+                            if(adjacentCell.getNumberOfAdjacentBombs() == 0){
+                                nextRound.add(new int[]{adjRow, adjCol});
+                            }
                         }
                     }
                 }

@@ -26,9 +26,6 @@ public class Cell {
 
     //=====GETTERS=====
 
-    public boolean isFlagged(){
-        return isFlagged;
-    }
     public boolean isRevealed(){
         return isRevealed;
     }
@@ -47,17 +44,30 @@ public class Cell {
     //=====SETTERS=====
 
     public void reveal(){
+
+        if(isBomb){
+            CHARACTER = BOMB_CHARACTER;
+        }
+        else{
+            setCharacterBasedOnAdjacentBombs();
+        }
+
         isRevealed = true;
     }
     public void toggleFlagged(){
-        isFlagged = !isFlagged;
+
+        if (!isRevealed){
+
+            isFlagged = !isFlagged;
+            CHARACTER = (isFlagged) ? FLAGGED_CHARACTER : NOT_REVEALED_CHARACTER;
+        }
     }
 
     public void setNumberOfAdjacentBombs(int row, int col, Field field){
         this.numberOfAdjacentBombs = calculateNumberOfAdjacentBombs(row, col, field);
     }
 
-    public void setCharacterBasedOnAdjacentBombs(){
+    private void setCharacterBasedOnAdjacentBombs(){
 
         CHARACTER = (numberOfAdjacentBombs == 0)
                 ? NO_ADJACENT_BOMBS_CELL_CHARACTER

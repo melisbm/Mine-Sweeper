@@ -1,6 +1,5 @@
 package Field.Utils;
 
-import Cells.*;
 import Field.Field;
 
 public class FieldUtils {

@@ -40,7 +40,7 @@ public class Game {
             sc.nextLine();
 
             //todo: add remove flag feature
-            System.out.print("([R]eveal, [F]lag down): ");
+            System.out.print("([R] Reveal, [F] Toggle flag): ");
             String actionPick = sc.next();
 
             field.updateField(rowPick, colPick, actionPick, gameStateManager);
