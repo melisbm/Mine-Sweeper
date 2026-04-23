@@ -1,8 +1,7 @@
 package Field;
 
 import Game.Difficulty;
-import Game.GameState;
-import Game.GameStateManager;
+import Game.MoveResult;
 
 import java.util.*;
 
@@ -39,7 +38,7 @@ public class Field {
         revealedStringField = this.calculateRevealedStringField();
     }
 
-    public void updateField(int row, int col, String action, GameStateManager gameStateManager){
+    public MoveResult updateField(int row, int col, String action){
 
         Cell cell = field[row][col];
 
@@ -59,18 +58,16 @@ public class Field {
                         break;
                     }
                 }
-                if (allCorrect) gameStateManager.setGameState(GameState.Win);
+                if (allCorrect) return MoveResult.WIN;
             }
         }
         else if(action.equals("R")) {
 
             if (cell.isBomb()) {
-                gameStateManager.setGameState(GameState.Loose);
-            } else{
-
-                if (cell.getNumberOfAdjacentBombs() == 0){
-                    revealEmptiness(row, col);
-                }
+                return MoveResult.LOOSE;
+            }
+            else if (cell.getNumberOfAdjacentBombs() == 0){
+                revealEmptiness(row, col);
             }
 
             cell.reveal();
@@ -80,6 +77,8 @@ public class Field {
         }
 
         stringField = this.toString();
+
+        return MoveResult.NONE;
     }
 
     private void revealEmptiness(int startRow, int startCol) {

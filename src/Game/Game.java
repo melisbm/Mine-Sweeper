@@ -8,7 +8,6 @@ public class Game {
 
     private Scanner sc;
     private boolean running;
-    private GameStateManager gameStateManager;
     int totalMines;
 
     private Field field;
@@ -18,8 +17,6 @@ public class Game {
         field = new Field(diffPick);
 
         sc = new Scanner(System.in);
-
-        gameStateManager = new GameStateManager();
         totalMines = field.getTotalMines();
 
         running = true;
@@ -44,13 +41,11 @@ public class Game {
             System.out.print("([R] Reveal, [F] Toggle flag): ");
             String actionPick = sc.next();
 
-            field.updateField(rowPick, colPick, actionPick, gameStateManager);
+            MoveResult moveResult = field.updateField(rowPick, colPick, actionPick);
 
-            GameState gameState = gameStateManager.getGameState();
+            switch(moveResult){
 
-            switch(gameState){
-
-                case GameState.Loose:
+                case MoveResult.LOOSE:
 
                     System.out.println("\nYou stepped on a mine. You lost!");
                     System.out.println("\n" + field.getRevealedStringField());
@@ -58,7 +53,7 @@ public class Game {
                     stopGame();
                     break;
 
-                case GameState.Win:
+                case MoveResult.WIN:
 
                     System.out.println("\n" + field.getStringField());
                     System.out.println("\nYou flagged every mine correctly. You win!");
