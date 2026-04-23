@@ -46,8 +46,8 @@ public enum Difficulty{
     },
     EXPERT {
 
-        private final int rows = 30;
-        private final int columns = 16;
+        private final int rows = 16;
+        private final int columns = 30;
         private final int bombs = 99;
 
         @Override

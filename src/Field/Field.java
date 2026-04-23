@@ -179,7 +179,7 @@ public class Field {
     }
 
     public int getRows(){
-        return columns;
+        return rows;
     }
 
     public Cell[][] getField(){
