@@ -58,6 +58,10 @@ public class Game {
 
             char actionPick = console.inputChar("([R] Reveal, [F] Toggle flag): ");
 
+            while(actionPick != 'R' && actionPick != 'r' && actionPick != 'F' && actionPick != 'f'){
+                actionPick = console.inputChar("Invalid input, type R or F: ");
+            }
+
             MoveResult moveResult = field.updateField(rowPick, colPick, actionPick);
 
             switch(moveResult){
