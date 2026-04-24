@@ -2,6 +2,7 @@ package Game;
 
 import Field.Field;
 import Field.MoveResult;
+import Console.Console;
 
 import java.util.*;
 
@@ -13,7 +14,11 @@ public class Game {
 
     private Field field;
 
+    private Console console;
+
     public void newGame(Difficulty diffPick){
+
+        console = new Console();
 
         int fieldRows = diffPick.getRows();
         int fieldColumns = diffPick.getColumns();
@@ -32,18 +37,19 @@ public class Game {
 
         while(running){
 
-            System.out.printf("Mines: %d | Flags: %d\n", totalMines, field.getTotalFlaggedCells());
-            System.out.println(field.getStringField());
+            String infoText = String.format("Mines: %d | Flags: %d", totalMines, field.getTotalFlaggedCells());
+            console.print(infoText, 0, 1);
+            console.print(field.getStringField());
 
-            System.out.print("Row: ");
+            console.print("Row: ");
             int rowPick = sc.nextInt() - 1;
             sc.nextLine();
 
-            System.out.print("Column: ");
+            console.print("Column: ");
             int colPick = sc.nextInt() - 1;
             sc.nextLine();
 
-            System.out.print("([R] Reveal, [F] Toggle flag): ");
+            console.print("([R] Reveal, [F] Toggle flag): ");
             String actionPick = sc.next();
 
             MoveResult moveResult = field.updateField(rowPick, colPick, actionPick);
@@ -52,17 +58,17 @@ public class Game {
 
                 case MoveResult.LOOSE:
 
-                    System.out.println("\nYou stepped on a mine. You lost!");
-                    System.out.println("\n" + field.getRevealedStringField());
+                    console.print("You stepped on a mine. You lost!", 1, 1);
+                    console.print(field.getRevealedStringField(), 1, 1);
 
                     stopGame();
                     break;
 
                 case MoveResult.WIN:
 
-                    System.out.println("\n" + field.getStringField());
-                    System.out.println("\nYou flagged every mine correctly. You win!");
-                    System.out.println("\n" + field.getRevealedStringField());
+                    console.print(field.getStringField(), 1, 1);
+                    console.print("You flagged every mine correctly. You win!",1, 1);
+                    console.print(field.getRevealedStringField(), 1, 1);
 
                     stopGame();
                     break;
