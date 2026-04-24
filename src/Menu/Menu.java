@@ -1,27 +1,31 @@
 package Menu;
 
+import Console.Console;
 import Game.Difficulty;
 
 import java.util.Scanner;
 
 public class Menu {
 
-    public Menu(){}
+    private Console console;
 
-    public void show(){
-
-        System.out.println("===== Mine Sweeper =====");
-        System.out.println("=== Difficulty ===");
-        System.out.println("1) Easy");
-        System.out.println("2) Medium");
-        System.out.println("3) Expert");
+    public Menu(Console console){
+        this.console = console;
     }
 
-    public Difficulty askDiff(){
-        System.out.print(">");
-        Scanner sc = new Scanner(System.in);
-        char pick = sc.next().charAt(0);
-        sc.nextLine();
+    public void showDifficultyOptions(){
+
+        console.println("=== Difficulty ===");
+        console.println("1) Easy");
+        console.println("2) Medium");
+        console.println("3) Expert");
+    }
+
+    public void showTitle(){
+        console.println("===== Mine Sweeper =====");
+    }
+
+    public Difficulty getDifficulty(char pick){
 
         return switch (pick){
             case '2' -> Difficulty.MEDIUM;

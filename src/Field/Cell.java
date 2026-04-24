@@ -5,7 +5,7 @@ public class Cell {
     public static final char FLAGGED_CHARACTER = 'P';
     public static final char NOT_REVEALED_CHARACTER = 'X';
     public static final char BOMB_CHARACTER = 'Q';
-    public static char NO_ADJACENT_BOMBS_CELL_CHARACTER = ' ';
+    public static final char NO_ADJACENT_BOMBS_CELL_CHARACTER = ' ';
 
     private char currentCharacter;
 

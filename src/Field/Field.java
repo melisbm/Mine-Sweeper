@@ -139,7 +139,6 @@ public class Field {
 
     private void placeBombs(){
 
-        int count = 0;
         int cellIndex = 0;
 
         while(cellIndex < totalMines){
@@ -155,7 +154,6 @@ public class Field {
 
             Cell bomb = new Cell(true);
             field[row][col] = bomb;
-            count++;
 
             cellIndex++;
         }

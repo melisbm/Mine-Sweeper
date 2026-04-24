@@ -1,3 +1,4 @@
+import Console.Console;
 import Game.*;
 import Menu.Menu;
 
@@ -6,12 +7,18 @@ import java.lang.*;
 public class Main {
     public static void main(String[] args){
 
-        Menu menu = new Menu();
-        Game game = new Game();
+        Console console = new Console();
 
-        menu.show();
-        Difficulty diff = menu.askDiff();
-        System.out.println();
-        game.newGame(diff);
+        Menu menu = new Menu(console);
+        Game game = new Game(console);
+
+        menu.showTitle();
+        menu.showDifficultyOptions();
+
+        char difficultyPick = console.inputChar(">");
+        console.println();
+
+        Difficulty difficulty = menu.getDifficulty(difficultyPick);
+        game.newGame(difficulty);
     }
 }

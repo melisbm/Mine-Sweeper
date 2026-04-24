@@ -9,15 +9,17 @@ import java.util.*;
 public class Game {
 
     private boolean running;
-    int totalMines;
+    private int totalMines;
 
     private Field field;
 
     private Console console;
 
-    public void newGame(Difficulty diffPick){
+    public Game(Console console){
+        this.console = console;
+    }
 
-        console = new Console();
+    public void newGame(Difficulty diffPick){
 
         int fieldRows = diffPick.getRows();
         int fieldColumns = diffPick.getColumns();
@@ -38,14 +40,10 @@ public class Game {
             console.print(infoText, 0, 1);
             console.print(field.getStringField());
 
-            console.print("Row: ");
-            int rowPick = console.inputInt() - 1;
+            int rowPick = console.inputInt("Row: ") - 1;
+            int colPick = console.inputInt("Column: ") - 1;
 
-            console.print("Column: ");
-            int colPick = console.inputInt() - 1;
-
-            console.print("([R] Reveal, [F] Toggle flag): ");
-            char actionPick = console.inputChar();
+            char actionPick = console.inputChar("([R] Reveal, [F] Toggle flag): ");
 
             MoveResult moveResult = field.updateField(rowPick, colPick, actionPick);
 
@@ -69,7 +67,7 @@ public class Game {
                     break;
             }
 
-            console.print("", 0, 1);
+            console.print("\n");
         }
     }
 
