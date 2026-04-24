@@ -34,11 +34,11 @@ public class Field {
         revealedStringField = this.calculateRevealedStringField();
     }
 
-    public MoveResult updateField(int row, int col, String action){
+    public MoveResult updateField(int row, int col, char action){
 
         Cell cell = field[row][col];
 
-        if(action.equals("F")){
+        if(action == 'F' || action == 'f'){
 
             if ( cell.isFlagged() ) flaggedCells.remove(cell);
             else flaggedCells.add(cell);
@@ -57,7 +57,7 @@ public class Field {
                 if (allCorrect) return MoveResult.WIN;
             }
         }
-        else if(action.equals("R")) {
+        else if(action == 'R' || action == 'r') {
 
             if (cell.isBomb()) {
                 return MoveResult.LOOSE;

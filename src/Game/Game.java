@@ -8,7 +8,6 @@ import java.util.*;
 
 public class Game {
 
-    private Scanner sc;
     private boolean running;
     int totalMines;
 
@@ -25,8 +24,6 @@ public class Game {
         int fieldMines = diffPick.getBombs();
 
         field = new Field(fieldRows, fieldColumns, fieldMines);
-
-        sc = new Scanner(System.in);
         totalMines = field.getTotalMines();
 
         running = true;
@@ -42,15 +39,13 @@ public class Game {
             console.print(field.getStringField());
 
             console.print("Row: ");
-            int rowPick = sc.nextInt() - 1;
-            sc.nextLine();
+            int rowPick = console.inputInt() - 1;
 
             console.print("Column: ");
-            int colPick = sc.nextInt() - 1;
-            sc.nextLine();
+            int colPick = console.inputInt() - 1;
 
             console.print("([R] Reveal, [F] Toggle flag): ");
-            String actionPick = sc.next();
+            char actionPick = console.inputChar();
 
             MoveResult moveResult = field.updateField(rowPick, colPick, actionPick);
 
@@ -74,13 +69,13 @@ public class Game {
                     break;
             }
 
-            System.out.println();
+            console.print("", 0, 1);
         }
     }
 
     public void stopGame(){
 
-        sc.close();
+        console.close();
         running = false;
     }
 }

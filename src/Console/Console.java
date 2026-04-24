@@ -17,4 +17,20 @@ public class Console {
     public void print(String text, int insertsStart, int insertsEnd){
         System.out.print("\n".repeat(insertsStart) + text + "\n".repeat(insertsEnd));
     }
+
+    public int inputInt(){
+
+        int input = scanner.nextInt();
+        scanner.nextLine();
+
+        return input;
+    }
+
+    public char inputChar(){
+        return scanner.nextLine().charAt(0);
+    }
+
+    public void close(){
+        scanner.close();
+    }
 }
