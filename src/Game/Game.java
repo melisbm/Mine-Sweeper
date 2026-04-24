@@ -41,7 +41,20 @@ public class Game {
             console.print(field.getStringField());
 
             int rowPick = console.inputInt("Row: ") - 1;
+
+            while(rowPick > field.getRows() || rowPick < 1){
+
+                String warningText = String.format("Invalid input, type a number between 1 and %d: ", field.getRows());
+                rowPick = console.inputInt(warningText) - 1;
+            }
+
             int colPick = console.inputInt("Column: ") - 1;
+
+            while(colPick > field.getColumns() || colPick < 1){
+
+                String warningText = String.format("Invalid input, type a number between 1 and %d: ", field.getColumns());
+                colPick = console.inputInt(warningText) - 1;
+            }
 
             char actionPick = console.inputChar("([R] Reveal, [F] Toggle flag): ");
 

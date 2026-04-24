@@ -3,8 +3,6 @@ package Menu;
 import Console.Console;
 import Game.Difficulty;
 
-import java.util.Scanner;
-
 public class Menu {
 
     private Console console;
@@ -25,12 +23,13 @@ public class Menu {
         console.println("===== Mine Sweeper =====");
     }
 
-    public Difficulty getDifficulty(char pick){
+    public Difficulty getDifficulty(int pick){
 
         return switch (pick){
-            case '2' -> Difficulty.MEDIUM;
-            case '3' -> Difficulty.EXPERT;
-            default -> Difficulty.EASY;
+            case 1 -> Difficulty.EASY;
+            case 2 -> Difficulty.MEDIUM;
+            case 3 -> Difficulty.EXPERT;
+            default -> throw new IllegalArgumentException("Invalid number pick. Pick number must be between 1 and 3.");
         };
     }
 }

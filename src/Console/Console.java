@@ -29,6 +29,12 @@ public class Console {
     public int inputInt(String inputText){
 
         print(inputText);
+
+        while(!scanner.hasNextInt()){
+            scanner.nextLine();
+            print("Invalid input, type a number: ");
+        }
+
         int input = scanner.nextInt();
         scanner.nextLine();
 

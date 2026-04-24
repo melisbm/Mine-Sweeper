@@ -15,7 +15,14 @@ public class Main {
         menu.showTitle();
         menu.showDifficultyOptions();
 
-        char difficultyPick = console.inputChar(">");
+        int difficultyPick = console.inputInt(">");
+
+        while (difficultyPick < 0 || difficultyPick > 3){
+
+            String warningText = "Invalid input, type a number between 1 and 3: ";
+            difficultyPick = console.inputInt(warningText);
+        }
+
         console.println();
 
         Difficulty difficulty = menu.getDifficulty(difficultyPick);
